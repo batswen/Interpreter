@@ -86,6 +86,7 @@ class Interpreter {
 				return 1;//n.value;
 			case nd_Assign:
 				globals.put(n.left.value, interpret(n.right));
+				return 0;
 			case nd_Add:
 				return interpret(n.left) + interpret(n.right);
 			case nd_Sub:
