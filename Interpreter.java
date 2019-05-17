@@ -55,7 +55,24 @@ class Interpreter {
 		public String toString() { return this.name; }
 	}
 	static String str(String s) {
-		return s.replace("\"", "").replace("\\n", "\n");
+		String result = "";
+		int i = 0;
+		s = s.replace("\"", "");
+		while (i < s.length()) {
+			if (s.charAt(i) == '\\' && i + 1 < s.length()) {
+				if (s.charAt(i + 1) == 'n') {
+					result += '\n';
+					i += 2;
+				} else if (s.charAt(i) == '\\') {
+					result += '\\';
+					i += 2;
+				} 
+			} else {
+				result += s.charAt(i);
+				i++;
+			}
+		}
+		return result;
 	}
 	static boolean itob(int i) {
 		return i != 0;
@@ -134,10 +151,10 @@ class Interpreter {
 				}
 				return 0;
 			case nd_Prtc:
-				System.out.print(interpret(n.left));
+				System.out.printf("%c", interpret(n.left));
 				return 0;
 			case nd_Prti:
-				System.out.print(interpret(n.left));
+				System.out.printf("%d", interpret(n.left));
 				return 0;
 			case nd_Prts:
 				System.out.print(str(n.left.value));//interpret(n.left));
@@ -215,6 +232,11 @@ class Interpreter {
 				interpret(n);
 			} catch (Exception e) {
 				System.out.println("Ex: "+e.getMessage());
+			}
+		}
+	}
+}
+
 			}
 		}
 	}
